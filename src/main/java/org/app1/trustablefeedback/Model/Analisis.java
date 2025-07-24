@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class Analyze {
+public class Analisis {
     @Id
     @GeneratedValue
     UUID id;
