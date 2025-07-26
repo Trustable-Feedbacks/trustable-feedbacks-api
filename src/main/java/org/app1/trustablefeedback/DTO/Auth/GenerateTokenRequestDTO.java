@@ -1,4 +1,4 @@
-package org.app1.trustablefeedback.DTO;
+package org.app1.trustablefeedback.DTO.Auth;
 
 import lombok.Getter;
 

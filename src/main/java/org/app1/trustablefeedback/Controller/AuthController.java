@@ -1,8 +1,8 @@
 package org.app1.trustablefeedback.Controller;
 
-import org.app1.trustablefeedback.DTO.GenerateTokenRequestDTO;
-import org.app1.trustablefeedback.DTO.RegisterUserRequestDTO;
-import org.app1.trustablefeedback.DTO.ValidateTokenRequestDTO;
+import org.app1.trustablefeedback.DTO.Auth.GenerateTokenRequestDTO;
+import org.app1.trustablefeedback.DTO.Auth.RegisterUserRequestDTO;
+import org.app1.trustablefeedback.DTO.Auth.ValidateTokenRequestDTO;
 import org.app1.trustablefeedback.Service.AuthService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
