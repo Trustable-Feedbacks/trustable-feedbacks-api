@@ -33,7 +33,7 @@ public class JwtService {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(key.getBytes()))
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
@@ -53,14 +53,14 @@ public class JwtService {
         Date expiration = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(key.getBytes()))
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
                 .getExpiration();
 
         return expiration.before(new Date());
     }
 
-    public boolean validateToken(String token, ClientDetails client){
+    public Boolean validateToken(String token, ClientDetails client){
         String username = extractUsername(token);
         Boolean isExpirated = isExpirated(token);
 
