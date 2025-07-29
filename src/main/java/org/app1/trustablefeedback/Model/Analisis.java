@@ -11,14 +11,17 @@ import java.util.UUID;
 public class Analisis {
     @Id
     @GeneratedValue
-    UUID id;
+    private UUID id;
 
     @Column(updatable = false, nullable = false)
-    EnumResult result;
+    private EnumResult result;
 
     @Column(updatable = false, nullable = false)
-    Double accuracy;
+    private Double accuracy;
 
     @Column(updatable = false, nullable = false)
-    String iaVersion;
+    private String iaVersion;
+
+    @Column(updatable = false, nullable = false)
+    private String feedbackId;
 }

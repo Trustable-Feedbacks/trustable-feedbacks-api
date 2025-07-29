@@ -13,16 +13,20 @@ import java.util.UUID;
 public class Feedback {
     @Id
     @GeneratedValue
-    UUID id;
+    private UUID id;
 
-    @Column(nullable = false)
-    Double grade;
+    @Column(nullable = false, updatable = false)
+    private Double grade;
 
-    String authorId;
+    @Column(nullable = false, updatable = false)
+    private String authorId;
 
-    String clientID;
+    @Column(nullable = false, updatable = false)
+    private String clientID;
 
     @CreationTimestamp
     @Column(updatable = false)
-    Date date;
+    private Date date;
+
+
 }
