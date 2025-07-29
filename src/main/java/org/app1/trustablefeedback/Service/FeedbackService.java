@@ -1,5 +1,7 @@
 package org.app1.trustablefeedback.Service;
 
+import org.app1.trustablefeedback.DTO.Feedback.AnalisisServerRequestDTO;
+import org.app1.trustablefeedback.DTO.Feedback.AnalisisServerResponseDTO;
 import org.app1.trustablefeedback.DTO.Feedback.HistoryResponseDTO;
 import org.app1.trustablefeedback.Model.Analisis;
 import org.app1.trustablefeedback.Model.Feedback;
@@ -7,7 +9,12 @@ import org.app1.trustablefeedback.Repository.AnalisisRepository;
 import org.app1.trustablefeedback.Repository.ClientRepository;
 import org.app1.trustablefeedback.Repository.FeedbackRepository;
 import org.app1.trustablefeedback.Security.JwtService;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -45,5 +52,23 @@ public class FeedbackService {
         final List<Analisis> listAnalisis = analisisRepository.findAllByClientId(clientId);
 
         return new HistoryResponseDTO<>(listAnalisis);
+    }
+
+    public AnalisisServerResponseDTO analyze(AnalisisServerRequestDTO requestDTO){
+        //creating the server request to the AI
+        HttpHeaders header = new HttpHeaders(); //request header
+        header.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<AnalisisServerRequestDTO> entity = new HttpEntity<>(requestDTO, header); //body + header
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "url";
+
+        ResponseEntity<AnalisisServerResponseDTO> responseEntity = restTemplate.postForEntity(
+                url, entity, AnalisisServerResponseDTO.class
+        );
+
+        //returning the response
+        return responseEntity.getBody();
     }
 }

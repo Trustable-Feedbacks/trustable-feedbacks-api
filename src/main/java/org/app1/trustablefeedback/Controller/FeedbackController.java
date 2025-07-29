@@ -2,6 +2,9 @@ package org.app1.trustablefeedback.Controller;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.Response;
+import org.app1.trustablefeedback.DTO.Feedback.AnalisisServerRequestDTO;
+import org.app1.trustablefeedback.DTO.Feedback.AnalisisServerResponseDTO;
 import org.app1.trustablefeedback.DTO.Feedback.HistoryResponseDTO;
 import org.app1.trustablefeedback.Model.Analisis;
 import org.app1.trustablefeedback.Model.Feedback;
@@ -37,5 +40,11 @@ public class FeedbackController {
             default:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Filter type not found: " + filter);
         }
+    }
+
+    @PostMapping("/analyze")
+    public ResponseEntity<AnalisisServerResponseDTO> analyze(@RequestBody AnalisisServerRequestDTO requestDTO){
+        AnalisisServerResponseDTO analysis = feedbackService.analyze(requestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(analysis);
     }
 }
