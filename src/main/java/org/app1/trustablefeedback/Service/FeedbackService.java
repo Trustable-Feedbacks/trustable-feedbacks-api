@@ -1,5 +1,6 @@
 package org.app1.trustablefeedback.Service;
 
+import jakarta.transaction.Transactional;
 import org.app1.trustablefeedback.DTO.Feedback.AnalisisServerRequestDTO;
 import org.app1.trustablefeedback.DTO.Feedback.AnalisisServerResponseDTO;
 import org.app1.trustablefeedback.DTO.Feedback.HistoryResponseDTO;
@@ -54,7 +55,17 @@ public class FeedbackService {
         return new HistoryResponseDTO<>(listAnalisis);
     }
 
-    public AnalisisServerResponseDTO analyze(AnalisisServerRequestDTO requestDTO){
+    @Transactional
+    public AnalisisServerResponseDTO analyze(AnalisisServerRequestDTO requestDTO, String clientId){
+        //saving the feedback
+        Feedback feedback = new Feedback();
+        feedback.setContent(requestDTO.getText());
+        feedback.setGrade(requestDTO.getGrade());
+        feedback.setClientID(clientId);
+
+        feedbackRepository.save(feedback);
+
+
         //creating the server request to the AI
         HttpHeaders header = new HttpHeaders(); //request header
         header.setContentType(MediaType.APPLICATION_JSON);
@@ -62,13 +73,23 @@ public class FeedbackService {
         HttpEntity<AnalisisServerRequestDTO> entity = new HttpEntity<>(requestDTO, header); //body + header
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "url";
+        String url = "https://trustable-feedback-artificial-inteligence-g5x4.onrender.com/consulta";
 
         ResponseEntity<AnalisisServerResponseDTO> responseEntity = restTemplate.postForEntity(
                 url, entity, AnalisisServerResponseDTO.class
         );
 
-        //returning the response
+        //saving the response
+        AnalisisServerResponseDTO responseDTO = responseEntity.getBody();
+
+        Analisis analisis = new Analisis();
+        analisis.setFeedbackId(feedback.getId().toString());
+        analisis.setResult(responseDTO.getIs_fair());
+        analisis.setAccuracy(responseDTO.getAccuracy());
+        analisis.setIaVersion(responseDTO.getAi_version());
+
+        analisisRepository.save(analisis);
+
         return responseEntity.getBody();
     }
 }

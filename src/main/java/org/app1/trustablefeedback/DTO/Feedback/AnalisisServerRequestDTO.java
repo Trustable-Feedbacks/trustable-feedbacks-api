@@ -4,7 +4,8 @@ import lombok.*;
 
 
 @AllArgsConstructor
+@Getter
 public class AnalisisServerRequestDTO {
-    private final String content;
+    private final String text;
     private final Integer grade;
 }

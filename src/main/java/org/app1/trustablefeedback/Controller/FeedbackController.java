@@ -43,8 +43,13 @@ public class FeedbackController {
     }
 
     @PostMapping("/analyze")
-    public ResponseEntity<AnalisisServerResponseDTO> analyze(@RequestBody AnalisisServerRequestDTO requestDTO){
-        AnalisisServerResponseDTO analysis = feedbackService.analyze(requestDTO);
+    public ResponseEntity<AnalisisServerResponseDTO> analyze(@RequestBody AnalisisServerRequestDTO requestDTO, HttpServletRequest request){
+        //getting clientId
+        String header = request.getHeader("Authorization");
+        String token = header.substring(7);
+
+
+        AnalisisServerResponseDTO analysis = feedbackService.analyze(requestDTO, token);
         return ResponseEntity.status(HttpStatus.OK).body(analysis);
     }
 }

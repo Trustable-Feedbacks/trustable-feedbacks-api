@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/auth/token").permitAll()
                         .requestMatchers("/api/auth/validateToken").permitAll()
+                        .requestMatchers("/api/feedback/history/*").hasRole("USER")
+                        .requestMatchers("/api/feedback/analyze").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
